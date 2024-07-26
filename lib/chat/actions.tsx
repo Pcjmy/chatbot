@@ -8,7 +8,7 @@ import {
   streamUI,
   createStreamableValue
 } from 'ai/rsc'
-import { openai } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai';
 
 import {
   spinner,
@@ -125,6 +125,10 @@ async function submitUserMessage(content: string) {
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
+
+  const openai = createOpenAI({
+    baseURL: 'https://gnomic.nengyongai.cn/v1'
+  })
 
   const result = await streamUI({
     model: openai('gpt-3.5-turbo'),
