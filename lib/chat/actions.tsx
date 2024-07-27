@@ -131,7 +131,7 @@ async function submitUserMessage(content: string) {
   });
 
   const result = await streamUI({
-    model: azure('hello'),
+    model: azure('GPT-4'),
     initial: <SpinnerMessage />,
     system: `\
     You are a stock trading conversation bot and you can help users buy stocks, step by step.
