@@ -126,7 +126,7 @@ async function submitUserMessage(content: string) {
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
 
-  const azure = createAzure({
+  const azure: any = createAzure({
     resourceName: 'hello-azure', // Azure resource name
   });
 
