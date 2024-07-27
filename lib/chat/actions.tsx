@@ -8,7 +8,7 @@ import {
   streamUI,
   createStreamableValue
 } from 'ai/rsc'
-import { createOpenAI } from '@ai-sdk/openai';
+import { createAzure } from '@ai-sdk/azure';
 
 import {
   spinner,
@@ -126,12 +126,12 @@ async function submitUserMessage(content: string) {
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
 
-  const openai = createOpenAI({
-    baseURL: 'https://gnomic.nengyongai.cn/v1'
-  })
+  const azure = createAzure({
+    resourceName: 'hello-azure', // Azure resource name
+  });
 
   const result = await streamUI({
-    model: openai('gpt-3.5-turbo'),
+    model: azure('hello'),
     initial: <SpinnerMessage />,
     system: `\
     You are a stock trading conversation bot and you can help users buy stocks, step by step.
