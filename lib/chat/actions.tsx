@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { generateText } from 'ai';
 import {
   createAI,
   createStreamableUI,
@@ -130,9 +131,8 @@ async function submitUserMessage(content: string) {
     resourceName: 'hello-azure', // Azure resource name
   });
 
-  const result = await streamUI({
+  const { text } = await generateText({
     model: azure('GPT-4'),
-    initial: <SpinnerMessage />,
     messages: [
       ...aiState.get().messages.map((message: any) => ({
         role: message.role,
@@ -140,36 +140,15 @@ async function submitUserMessage(content: string) {
         name: message.name
       }))
     ],
-    text: ({ content, done, delta }) => {
-      if (!textStream) {
-        textStream = createStreamableValue('')
-        textNode = <BotMessage content={textStream.value} />
-      }
-
-      if (done) {
-        textStream.done()
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: nanoid(),
-              role: 'assistant',
-              content
-            }
-          ]
-        })
-      } else {
-        textStream.update(delta)
-      }
-
-      return textNode
-    }
   })
+
+  console.log('text=', text)
+
+  const result = <BotMessage content={text} />
 
   return {
     id: nanoid(),
-    display: result.value
+    display: result
   }
 }
 
