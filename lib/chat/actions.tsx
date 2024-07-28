@@ -142,8 +142,6 @@ async function submitUserMessage(content: string) {
     ],
   })
 
-  console.log('text=', text)
-
   const result = <BotMessage content={text} />
 
   return {
